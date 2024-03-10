@@ -8,29 +8,19 @@ blueprint:
     light_target:
       name: Light
       selector:
-        entity:
-          domain:
-          - light
-          - switch
+        target:
+          entity:
+            domain: light
     time_on:
       name: Time On
       description: Time to turn on lights.
       selector:
-        time: {}
+        time:
     time_off:
       name: Time Off
       description: Time to turn off lights.
       selector:
-        time: {}
-        
-variables:
-  target_light: !input light_target
-#   service_call: > 
-#     {% if states[target_light].domain == "switch" %}
-#         switch.turn_on
-#     {% else %}
-#         light.turn_on
-#     {% endif %}
+        time:
 
 alias: Light Time schedule
 description: ''
@@ -54,25 +44,9 @@ action:
         after: !input time_on
         before: !input time_off
     sequence:
-    - service: > 
-            {% if states[target_light].domain == "switch" %}
-                switch.turn_on
-            {% else %}
-                light.turn_on
-            {% endif %}
-      metadata: {}
-      data: {}
-      target:
-        entity_id: !input light_target
+    - service: light.turn_on
+      target: !input light_target
   default:
-  - service: > 
-            {% if states[target_light].domain == "switch" %}
-                switch.turn_off
-            {% else %}
-                light.turn_off
-            {% endif %}
-    metadata: {}
-    data: {}
-    target:
-      entity_id: !input light_target
+    - service: light.turn_off
+      target: !input light_target
 mode: single

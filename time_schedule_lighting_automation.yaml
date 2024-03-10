@@ -1,6 +1,6 @@
 blueprint:
   name: Toggle light on time
-  description: Turn on of off lights based on the time (start and end)
+  description: Turn on of off lights based on the time (start and end). Use a helper conversion for switch devices.
   domain: automation
   author: igresc
   source_url: https://github.com/igresc/ha-blueprints/blob/main/time_schedule_lighting_automation.yaml

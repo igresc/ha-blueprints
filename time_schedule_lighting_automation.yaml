@@ -35,9 +35,14 @@ condition: []
 action:
   - choose:
       - conditions:
-          - condition: trigger
-            id:
-              - time_on
+          - condition: or
+            conditions:
+              - condition: trigger
+                id:
+                  - time_on
+              - condition: time
+                after: !input time_on 
+                before: !input time_off
         sequence:
           - service: light.turn_on
             metadata: {}

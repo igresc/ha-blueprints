@@ -1,0 +1,53 @@
+blueprint:
+  name: Toggle light on time
+  description: Turn on of off lights based on the time (start and end)
+  domain: automation
+  author: igresc
+  source_url: https://git.local.isabelsoler.es/igresc/ha-blueprints/time_schedule_lighting_automation.yaml
+  input:
+    light_target:
+      name: Light
+      selector:
+        entity:
+          domain:
+            - light
+    time_on:
+      name: Time On
+      description: Time to turn on lights.
+      selector:
+        time:
+    time_off:
+      name: Time Off
+      description: Time to turn off lights.
+      selector:
+        time:
+
+alias: Light Time schedule
+description: ""
+trigger:
+  - platform: time
+    at: !input time_on 
+    id: time_on
+  - platform: time
+    at: !input time_off
+    id: time_off
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - time_on
+        sequence:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: !input light_target 
+    default:
+      - service: light.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: !input light_target 
+mode: single
